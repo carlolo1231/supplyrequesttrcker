@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class DeliveryManager {
@@ -16,27 +17,46 @@ public class DeliveryManager {
 
    
 
-    public void addDelivery() {
-        int supplyId = getValidIntInput("Enter Supply ID for delivery: ");
-        if (!supplyExists(supplyId)) {
-            System.out.println("No supply found with ID: " + supplyId);
-            return;
-        }
-        int quantity = getValidIntInput("Enter Quantity for delivery: ");
-        String deliveryDate = getValidStringInput("Enter Delivery Date (YYYY-MM-DD): ");
-
-        String sql = "INSERT INTO Deliveries (supply_id, quantity, delivery_date) VALUES (?, ?, ?)";
-        try (Connection conn = con.connectDB();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, supplyId);
-            stmt.setInt(2, quantity);
-            stmt.setString(3, deliveryDate);
-            stmt.executeUpdate();
-            System.out.println("Delivery added successfully.");
-        } catch (SQLException e) {
-            System.out.println("Error adding delivery: " + e.getMessage());
-        }
+  public void addDelivery() {
+    int supplyId = getValidIntInput("Enter Supply ID for delivery: ");
+    if (!supplyExists(supplyId)) {
+        System.out.println("No supply found with ID: " + supplyId);
+        return;
     }
+    int quantity = getValidIntInput("Enter Quantity for delivery: ");
+    String deliveryDate = getValidStringInput("Enter Delivery Date (YYYY-MM-DD): ");
+
+    String sql = "INSERT INTO Deliveries (supply_id, quantity, delivery_date) VALUES (?, ?, ?)";
+    try (Connection conn = con.connectDB();
+         PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        stmt.setInt(1, supplyId);
+        stmt.setInt(2, quantity);
+        stmt.setString(3, deliveryDate);
+        stmt.executeUpdate();
+
+        
+        ResultSet generatedKeys = stmt.getGeneratedKeys();
+        int generatedDeliveryId = 0;
+        if (generatedKeys.next()) {
+            generatedDeliveryId = generatedKeys.getInt(1);
+        }
+
+        
+        String supplyName = getSupplyNameById(supplyId);  
+
+       
+        Delivery delivery = new Delivery(generatedDeliveryId, supplyId, quantity, deliveryDate, supplyName);
+
+       
+
+        System.out.println("Delivery and report added successfully.");
+    } catch (SQLException e) {
+        System.out.println("Error adding delivery: " + e.getMessage());
+    }
+}
+
+
 
     public void viewDeliveries() {
         String sql = "SELECT d.delivery_id, s.name, d.quantity, d.delivery_date "
@@ -71,9 +91,9 @@ public class DeliveryManager {
             return;
         }
 
-        int supplyId = getValidIntInput("Enter new Supply ID (or leave empty to keep current): ");
-        int quantity = getValidIntInput("Enter new Quantity (or leave empty to keep current): ");
-        String deliveryDate = getValidStringInput("Enter new Delivery Date (or leave empty to keep current): ");
+        int supplyId = getValidIntInput("Enter new Supply ID (hit enter ra if wlay changes): ");
+        int quantity = getValidIntInput("Enter new Quantity (hit enter ra if wlay changes): ");
+        String deliveryDate = getValidStringInput("Enter new Delivery Date (hit enter ra if wlay changes): ");
 
         String updateSql = "UPDATE Deliveries SET supply_id = COALESCE(NULLIF(?, -1), supply_id), "
                 + "quantity = COALESCE(NULLIF(?, -1), quantity), "
@@ -161,4 +181,22 @@ public class DeliveryManager {
             return false;
         }
     }
+     private String getSupplyNameById(int supplyId) {
+    String sql = "SELECT name FROM Supplies WHERE supply_id = ?";
+    try (Connection conn = con.connectDB(); 
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, supplyId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getString("name"); 
+        } else {
+            System.out.println("No supply found with ID: " + supplyId);
+            return null;  
+        }
+    } catch (SQLException e) {
+        System.out.println("Error fetching supply name: " + e.getMessage());
+        return null;  
+    }
+}
+
 }

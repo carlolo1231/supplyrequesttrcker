@@ -62,9 +62,9 @@ public class SupplyManager {
             System.out.println("No supply found with ID: " + id);
             return;
         }
-        String name = getValidStringInput("Enter new Supply Name (or leave empty to keep current): ");
-        int quantity = getValidIntInput("Enter new Quantity (or leave empty to keep current): ");
-        String supplier = getValidStringInput("Enter new Supplier Name (or leave empty to keep current): ");
+        String name = getValidStringInput("Enter new Supply Name (hit enter ra if wlay changes): ");
+        int quantity = getValidIntInput("Enter new Quantity (hit enter ra if wlay changes): ");
+        String supplier = getValidStringInput("Enter new Supplier Name (hit enter ra if wlay changes): ");
 
         String sql = "UPDATE Supplies SET name = COALESCE(NULLIF(?, ''), name), "
                 + "quantity = COALESCE(NULLIF(?, -1), quantity), "
