@@ -16,8 +16,6 @@ public class Delivery {
     this.supplyName = supplyName;
 }
 
-
-    
     public int getId() { return id; }
     public String getSupplyName() { return supplyName; }
     public int getQuantity() { return quantity; }

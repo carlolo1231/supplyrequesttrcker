@@ -6,7 +6,6 @@ public class DeliveryReport {
     public DeliveryReport(Delivery delivery) {
         this.delivery = delivery;
     }
-
     public Delivery getDelivery() {
         return delivery;
     }

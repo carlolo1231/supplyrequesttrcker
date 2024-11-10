@@ -110,7 +110,6 @@ public class DeliveryManager {
             System.out.println("Error updating delivery: " + e.getMessage());
         }
     }
-
     public void deleteDelivery() {
         int id = getValidIntInput("Enter Delivery ID to delete: ");
         if (!deliveryExists(id)) {

@@ -112,7 +112,6 @@ public class SupplyManager {
             return false;
         }
     }
-
     private int getValidIntInput(String prompt) {
         while (true) {
             System.out.print(prompt);

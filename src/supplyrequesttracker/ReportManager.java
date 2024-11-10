@@ -13,7 +13,7 @@ public class ReportManager {
 
     }
 
-    
+   
     public void viewAllReports() {
         String sql = "SELECT d.delivery_id, s.name AS supply_name, d.quantity, d.delivery_date " +
                      "FROM Deliveries d " +

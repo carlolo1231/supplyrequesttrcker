@@ -94,7 +94,6 @@ public static Connection connectDB() {
     //-----------------------------------------------
     // UPDATE METHOD
     //-----------------------------------------------
-
     public void updateRecord(String sql, Object... values) {
         try (Connection conn = this.connectDB(); // Use the connectDB method
              PreparedStatement pstmt = conn.prepareStatement(sql)) {

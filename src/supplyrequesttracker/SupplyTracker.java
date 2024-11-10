@@ -38,7 +38,7 @@ public class SupplyTracker {
         } while (choice != 4);
         scanner.close();
     }
-
+// diko kabaw desgin sir huhuuuuu
     void displayMainMenu() {
         System.out.println("---------------------------------------------------------------------");
         System.out.println("|----------------  Supply Tracker System Menu  ---------------------|");
@@ -150,7 +150,6 @@ public class SupplyTracker {
         }
     } while (choice != 3);
 }
-
 
     private int getValidChoice() {
         while (true) {
