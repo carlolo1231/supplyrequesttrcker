@@ -48,6 +48,7 @@ public class ReportManager {
 
   
     public void viewIndividualReport() {
+        DeliveryManager.viewDeliveries();
         int deliveryId = getValidIntInput("Enter Delivery ID to view report: ");
         
         String sql = "SELECT d.delivery_id, s.name AS supply_name, d.quantity, d.delivery_date " +

@@ -38,7 +38,7 @@ public class SupplyTracker {
         } while (choice != 4);
         scanner.close();
     }
-// diko kabaw desgin sir huhuuuuu
+
     void displayMainMenu() {
         System.out.println("---------------------------------------------------------------------");
         System.out.println("|----------------  Supply Tracker System Menu  ---------------------|");
@@ -111,10 +111,12 @@ public class SupplyTracker {
                 case 3:
                     deliveryManager.viewDeliveries();
                     deliveryManager.updateDelivery();
+                    deliveryManager.viewDeliveries();
                     break;
                 case 4:
                     deliveryManager.viewDeliveries();
                     deliveryManager.deleteDelivery();
+                    deliveryManager.viewDeliveries();
                     break;
                 case 5:
                     break;

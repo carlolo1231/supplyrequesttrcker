@@ -57,6 +57,7 @@ public class SupplyManager {
     }
 
     public void updateSupply() {
+        viewSupplies();
         int id = getValidIntInput("Enter Supply ID to update: ");
         if (!supplyExists(id)) {
             System.out.println("No supply found with ID: " + id);
@@ -83,6 +84,7 @@ public class SupplyManager {
     }
 
     public void deleteSupply() {
+        viewSupplies();
         int id = getValidIntInput("Enter Supply ID to delete: ");
         if (!supplyExists(id)) {
             System.out.println("No supply found with ID: " + id);

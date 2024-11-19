@@ -58,11 +58,11 @@ public class DeliveryManager {
 
 
 
-    public void viewDeliveries() {
+    public static void viewDeliveries() {
         String sql = "SELECT d.delivery_id, s.name, d.quantity, d.delivery_date "
                 + "FROM Deliveries d JOIN Supplies s ON d.supply_id = s.supply_id";
         
-        try (Connection conn = con.connectDB();
+        try (Connection conn = config.connectDB();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -85,6 +85,7 @@ public class DeliveryManager {
     }
 
     public void updateDelivery() {
+        viewDeliveries();
         int id = getValidIntInput("Enter Delivery ID to update: ");
         if (!deliveryExists(id)) {
             System.out.println("No delivery found with ID: " + id);
@@ -111,6 +112,7 @@ public class DeliveryManager {
         }
     }
     public void deleteDelivery() {
+        viewDeliveries();
         int id = getValidIntInput("Enter Delivery ID to delete: ");
         if (!deliveryExists(id)) {
             System.out.println("No delivery found with ID: " + id);
