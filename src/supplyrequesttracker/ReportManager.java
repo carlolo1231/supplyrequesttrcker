@@ -83,6 +83,48 @@ public class ReportManager {
             System.out.println("Error fetching individual report: " + e.getMessage());
         }
     }
+    public void viewIndividualSupplyReport() {
+    
+    DeliveryManager.viewDeliveries();
+    
+  
+    int deliveryId = getValidIntInput("Enter Delivery ID to view supply report: ");
+    
+    
+    String sql = "SELECT d.delivery_id, s.name AS supply_name, d.quantity, d.delivery_date, d.status " +
+                 "FROM Deliveries d " +
+                 "JOIN Supplies s ON d.supply_id = s.supply_id " +
+                 "WHERE d.delivery_id = ?";
+
+    try (PreparedStatement stmt = con.prepareStatement(sql)) {
+        stmt.setInt(1, deliveryId);  
+
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+               
+                String supplyName = rs.getString("supply_name");
+                int quantity = rs.getInt("quantity");
+                String deliveryDate = rs.getString("delivery_date");
+                String status = rs.getString("status");
+
+               
+                System.out.println("\n===============================================");
+                System.out.println("               Individual Supply Report        ");
+                System.out.println("===============================================");
+                System.out.printf("%-20s: %d%n", "Supply ID", deliveryId);
+                System.out.printf("%-20s: %s%n", "Supply", supplyName);
+                System.out.printf("%-20s: %d%n", "Quantity", quantity);
+                System.out.printf("%-20s: %s%n", "Date", deliveryDate);
+                System.out.printf("%-20s: %s%n", "Status Of the Delivery", status);
+                System.out.println("===============================================");
+            } else {
+                System.out.println("No report found for Delivery ID: " + deliveryId);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error fetching individual supply report: " + e.getMessage());
+    }
+}
 
    
     public int getValidIntInput(String prompt) {

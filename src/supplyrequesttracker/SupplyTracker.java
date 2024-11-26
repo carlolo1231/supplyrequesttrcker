@@ -126,31 +126,34 @@ public class SupplyTracker {
         } while (choice != 5);
     }
 
-    private void handleReports() {
+   private void handleReports() {
     int choice;
     do {
         System.out.println("----------- Reports Management Menu -----------");
         System.out.println("1. View All Delivery Reports                   |");
         System.out.println("2. View Individual Delivery Report             |");
-        System.out.println("3. Back to Main Menu                          |");
+        System.out.println("3. View Individual Supply Report               |"); 
+        System.out.println("4. Back to Main Menu                          |");
         System.out.println("-----------------------------------------------");
         System.out.print("Enter your choice:                            ");
         choice = getValidChoice();
 
         switch (choice) {
             case 1:
-               
                 reportManager.viewAllReports();
                 break;
             case 2:
                 reportManager.viewIndividualReport();
                 break;
             case 3:
+                reportManager.viewIndividualSupplyReport(); 
+                break;
+            case 4:
                 break;
             default:
                 System.out.println("Invalid choice. Please try again.");
         }
-    } while (choice != 3);
+    } while (choice != 4);
 }
 
     private int getValidChoice() {
